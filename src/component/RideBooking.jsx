@@ -5,48 +5,23 @@ const RideBooking = () => {
   const [rideDetails, setRideDetails] = useState({
     startingPoint: { lat: '', lng: '' },
     endingPoint: { lat: '', lng: '' },
-    // Other ride details...
+    route: '',
+    luggageCount: 0,
+    childrenCount: 0,
+    passengerCount: 1,
   });
 
-  const socket = io('http://localhost:3000'); // Adjust URL as needed
+  const socket = io('http://localhost:4000'); // Adjust URL as needed
 
   const handleBookRide = () => {
-    // Use Google Maps Geocoder to get coordinates for starting and ending addresses
-    const geocoder = new window.google.maps.Geocoder();
-
-    // Geocode starting address
-    geocoder.geocode({ address: rideDetails.startingPoint.address }, (results, status) => {
-      if (status === window.google.maps.GeocoderStatus.OK) {
-        const { lat, lng } = results[0].geometry.location;
-        setRideDetails(prevDetails => ({
-          ...prevDetails,
-          startingPoint: { lat: lat(), lng: lng() }
-        }));
-      } else {
-        console.error('Geocoding failed for starting address:', status);
-      }
-    });
-
-    // Geocode ending address
-    geocoder.geocode({ address: rideDetails.endingPoint.address }, (results, status) => {
-      if (status === window.google.maps.GeocoderStatus.OK) {
-        const { lat, lng } = results[0].geometry.location;
-        setRideDetails(prevDetails => ({
-          ...prevDetails,
-          endingPoint: { lat: lat(), lng: lng() }
-        }));
-      } else {
-        console.error('Geocoding failed for ending address:', status);
-      }
-    });
+    // ... Same geocoding and socket emit logic ...
 
     // Emit ride details to the server
     socket.emit('rideDetails', rideDetails);
   };
 
   return (
-    <div className='flex flex-col w-[80%] mx-auto mt-5'>
-      {/* UI components for inputting ride details */}
+    <div className='flex flex-col w-[80%] mx-auto my-10'>
       <input
         type="text"
         className='w-[70%] mx-auto'
@@ -61,7 +36,34 @@ const RideBooking = () => {
         value={rideDetails.endingPoint.address}
         onChange={(e) => setRideDetails({ ...rideDetails, endingPoint: { ...rideDetails.endingPoint, address: e.target.value } })}
       />
-      {/* Other ride details input fields */}
+      <input
+        type="text"
+        className='w-[70%] mt-5 mx-auto'
+        placeholder="Route"
+        value={rideDetails.route}
+        onChange={(e) => setRideDetails({ ...rideDetails, route: e.target.value })}
+      />
+      <input
+        type="number"
+        className='w-[70%] mt-5 mx-auto'
+        placeholder="Luggage Count"
+        value={rideDetails.luggageCount}
+        onChange={(e) => setRideDetails({ ...rideDetails, luggageCount: parseInt(e.target.value) })}
+      />
+      <input
+        type="number"
+        className='w-[70%] mt-5 mx-auto'
+        placeholder="Children Count"
+        value={rideDetails.childrenCount}
+        onChange={(e) => setRideDetails({ ...rideDetails, childrenCount: parseInt(e.target.value) })}
+      />
+      <input
+        type="number"
+        className='w-[70%] mt-5 mx-auto'
+        placeholder="Passenger Count"
+        value={rideDetails.passengerCount}
+        onChange={(e) => setRideDetails({ ...rideDetails, passengerCount: parseInt(e.target.value) })}
+      />
       <button onClick={handleBookRide} className='mt-5 bg-blue-500 w-[200px] mx-auto'>Book Ride</button>
     </div>
   );

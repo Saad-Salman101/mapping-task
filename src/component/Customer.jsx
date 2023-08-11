@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCustomer, deleteCustomer, editCustomer } from "../redux/Reducers";
 import LineGraph from './LineGraph';
 import RideBooking from './RideBooking';
+import users  from '../data';
 // import UserActivityGraph from './UserActivityGraph ';
 // import ActivityGraph from './ActivityGraph';
 
@@ -49,9 +50,10 @@ const Customer = () => {
       .then((response) => response.json())
       .then((data) => {
         // Sort the initial data by id in ascending order
-        const sortedCustomers = data.data.sort((a, b) => a.id - b.id);
+        const sortedCustomers = users.sort((a, b) => a.id - b.id);
         setCustomers(sortedCustomers);
-        console.log(customers)
+        console.log(sortedCustomers)
+        console.log("abc")
       });
   }, []);
 
@@ -165,7 +167,7 @@ const Customer = () => {
             
               <h3 className=' col-span-2' onClick={() => sortTable('first_name')}>Customer Name</h3>
               <h3 className=' col-span-2' onClick={() => sortTable('email')}>email</h3>
-              <h3 className=' col-span-1' onClick={() => sortTable('id')}>Customer ID#</h3>
+              <h3 className=' col-span-1' onClick={() => sortTable('id')}>Role</h3>
               <div className=' col-span-4'></div>
             </div>
           </div>
@@ -173,11 +175,11 @@ const Customer = () => {
           <div className='grid grid-cols-12'>
             {customers.map((customer) => (
               <div className='bg-white w-[80%] col-span-12 grid grid-rows-2 lg:grid-rows-1 sm:grid-cols-12 rounded-md p-4 mx-auto mt-5' key={customer.id}>
-                <img src={customer.avatar} alt={`Avatar of ${customer.first_name}`} className=' col-span-3' />
+                <img src={customer.avatar} alt={`Avatar of ${customer.first_name}`} className=' col-span-3 h-[40px]' />
                 
                 <div className='col-span-2 flex justify-center items-center text-[14px] mr-3'>{`${customer.first_name} ${customer.last_name}`}</div>
                 <div className='col-span-2 flex justify-center items-center text-[12px]'>{customer.email}</div>
-                <div className='col-span-1 flex justify-center items-center '>{customer.id}</div>
+                <div className='col-span-1 flex justify-center items-center text-[12px] '>{customer.role}</div>
                 <div className='col-span-4 flex justify-end items-center'>
                   <button onClick={() => handleEditClick(customer)} className='mx-2 bg-green-500 px-4 py-1 rounded-md text-green-800'>Edit</button>
                   <button onClick={() => handleDeleteClick(customer.id)} className='mx-2 bg-red-500 px-4 py-1 rounded-md text-red-800'>Delete</button>
