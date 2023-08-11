@@ -1,0 +1,21 @@
+.ReactModal__Overlay{
+    background-color: green !important ;
+  }
+
+.ReactModal__Overlay--after-open{
+    background-color: green ;
+  }
+  
+.ReactModal__Content {
+    background-color: #fbfcfc !important;
+    width: 400px ;
+    height: 400px ;
+    margin: auto;
+    margin-top: 200px;
+    border-radius: 20px;
+  }
+  .ReactModal__Content--after-open{
+    background-color: green !important;
+  }
+
+  
